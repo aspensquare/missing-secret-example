@@ -118,7 +118,15 @@ export const {
             }
 
             if ( account?.provider === "facebook" ) {
-                //profile.id === AspNetUserLogins.ProviderKey (facebook)
+                const aspenToken = await registerOAuth( {
+                    email: user.email,
+                    provider: account.provider,
+                    providerKey: profile.id
+                } );
+                const aspenUser = jose.decodeJwt( aspenToken );
+
+                token.accessToken = aspenToken;
+                token.roles = [aspenUser.role];
             }
 
             return token
