@@ -1,5 +1,6 @@
 import { auth, signIn, signOut } from "@/auth";
 import { Inter } from "next/font/google";
+import { Button } from "@/components/ui/button";
 import "./globals.css";
 
 const inter = Inter( { subsets: ["latin"] } );
@@ -10,46 +11,21 @@ export const metadata = {
 };
 
 export default async function RootLayout( { children } ) {
-    let session = await auth();
-    let user = session?.user?.email;
+    const session = await auth();
+    const user = session?.user?.email;
 
     return (
         <html lang="en">
-            <body className={inter.className}>
+            <body className={`${inter.className} p-6`}>
                 <section>
-                    <h1>Home</h1>
-                    <div>{user ? <SignOut>{`Welcome ${user}`}</SignOut> : <SignIn/>}</div>
+                    <h1>Layout</h1>
+                    <div className={"mt-6"}>{user && <SignOut>{`Welcome ${user}`}</SignOut>}</div>
+                    <p className={"mt-6"}>{session?.accessToken}</p>
                 </section>
-                
+
                 {children}
             </body>
         </html>
-    );
-}
-
-function SignIn() {
-    return (
-        <>
-            <form
-                action={async () => {
-                    "use server";
-                    await signIn( "google" );
-                }}
-            >
-                <p>You are not logged in</p>
-                <button type="submit">Sign in with Google</button>
-            </form>
-
-            <form
-                action={async () => {
-                    "use server";
-                    await signIn( "facebook" );
-                }}
-            >
-                <p>You are not logged in</p>
-                <button type="submit">Sign in with Facebook</button>
-            </form>
-        </>
     );
 }
 
@@ -61,8 +37,8 @@ function SignOut( { children } ) {
                 await signOut();
             }}
         >
-            <p>{children}</p>
-            <button type="submit">Sign out</button>
+            <p className={"mb-6"}>{children}</p>
+            <Button type="submit" variant={"outline"}>Sign out</Button>
         </form>
     );
 }

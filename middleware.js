@@ -1,5 +1,3 @@
-import NextAuth from "next-auth"
-
 export { auth as default } from "./auth";
 
 // Optionally, don't invoke Middleware on some paths
