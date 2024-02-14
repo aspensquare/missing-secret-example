@@ -4,6 +4,31 @@ import Facebook from "next-auth/providers/facebook";
 import CredentialsProvider from "next-auth/providers/credentials";
 import * as jose from "jose"
 
+const registerOAuth = async ( { email, provider, providerKey } ) => {
+    const myHeaders = new Headers();
+    myHeaders.append( "Authorization", `Bearer ${process.env.IDENTITY_SERVICE_TOKEN}` );
+    myHeaders.append( "Content-Type", "application/json" );
+
+    const raw = JSON.stringify( {
+        "email": email,
+        "provider": provider,
+        "providerKey": providerKey
+    } );
+
+    const requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: raw,
+    };
+
+    try {
+        const response = await fetch( "http://localhost:8000/api/Account/RegisterOAuth", requestOptions );
+        return await response.json();
+    } catch ( e ) {
+        //what happens if we can't verify user and obtain token?
+    }
+};
+
 export const {
     handlers: { GET, POST },
     auth,
@@ -58,12 +83,9 @@ export const {
         }
     } )],
     callbacks: {
-        async signIn( { user, account, profile, email, credentials } ) {
-            console.log( "verify with asp.net identity" );
-            //profile.sub === AspNetUserLogins.ProviderKey (google)
-            //profile.id === AspNetUserLogins.ProviderKey (facebook)
-            return true
-        },
+        // async signIn( { user, account, profile, email, credentials } ) {
+        //     return true
+        // },
         async redirect( { url, baseUrl } ) {
             const redirectUrl = ( new URL( url ) ).searchParams.get( "callbackUrl" );
 
@@ -82,9 +104,29 @@ export const {
                 token.accessToken = user.accessToken;
                 token.roles = [user.role];
             }
+
+            if ( account?.provider === "google" ) {
+                const aspenToken = await registerOAuth( {
+                    email: user.email,
+                    provider: account.provider,
+                    providerKey: profile.sub
+                } );
+                const aspenUser = jose.decodeJwt( aspenToken );
+
+                token.accessToken = aspenToken;
+                token.roles = [aspenUser.role];
+            }
+
+            if ( account?.provider === "facebook" ) {
+                //profile.id === AspNetUserLogins.ProviderKey (facebook)
+            }
+
             return token
         },
         async authorized( { request, auth } ) {
+            if ( !auth?.user ) return false;
+
+            // const accessTokenIsValid = Date.now() < ( decodedAccessToken.exp * 1000 );
             //TODO: check auth?.accessToken expiration
             return auth?.user;
         }
