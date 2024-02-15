@@ -22,11 +22,44 @@ const registerOAuth = async ( { email, provider, providerKey } ) => {
     };
 
     try {
-        const response = await fetch( "http://localhost:8000/api/Account/RegisterOAuth", requestOptions );
+        const response = await fetch( "http://192.168.184.145:8000/api/Account/RegisterOAuth", requestOptions );
         return await response.json();
     } catch ( e ) {
+        const x = "tst";
         //what happens if we can't verify user and obtain token?
     }
+};
+const initializeToken = async ( token, user, account, profile ) => {
+    if ( account?.provider === "aspen-identity" ) {
+        token.accessToken = user?.accessToken;
+        token.roles = [user?.role];
+    }
+
+    if ( account?.provider === "google" ) {
+        const aspenToken = await registerOAuth( {
+            email: user.email,
+            provider: account.provider,
+            providerKey: profile.sub
+        } );
+        const aspenUser = jose.decodeJwt( aspenToken );
+
+        token.accessToken = aspenToken;
+        token.roles = [aspenUser.role];
+    }
+
+    if ( account?.provider === "facebook" ) {
+        const aspenToken = await registerOAuth( {
+            email: user.email,
+            provider: account.provider,
+            providerKey: profile.id
+        } );
+        const aspenUser = jose.decodeJwt( aspenToken );
+
+        token.accessToken = aspenToken;
+        token.roles = [aspenUser.role];
+    }
+
+    return token;
 };
 
 export const {
@@ -65,7 +98,7 @@ export const {
             };
 
             try {
-                const response = await fetch( "http://localhost:8000/api/token", requestOptions );
+                const response = await fetch( "http://192.168.184.145:8000/api/token", requestOptions );
                 const user = await response.json();
                 const aspenUser = jose.decodeJwt( user.access_token );
                 // Any object returned will be saved in `user` property of the JWT
@@ -86,6 +119,7 @@ export const {
         // async signIn( { user, account, profile, email, credentials } ) {
         //     return true
         // },
+
         async redirect( { url, baseUrl } ) {
             const redirectUrl = ( new URL( url ) ).searchParams.get( "callbackUrl" );
 
@@ -93,44 +127,22 @@ export const {
 
             return baseUrl
         },
+
         async session( { session, user, token } ) {
             if ( token?.accessToken ) {
                 session.accessToken = token.accessToken;
             }
             return session
         },
+
         async jwt( { token, user, account, profile, isNewUser } ) {
-            if ( account?.provider === "aspen-identity" ) {
-                token.accessToken = user.accessToken;
-                token.roles = [user.role];
+            if ( account ) {
+                return await initializeToken( token, user, account, profile );
             }
 
-            if ( account?.provider === "google" ) {
-                const aspenToken = await registerOAuth( {
-                    email: user.email,
-                    provider: account.provider,
-                    providerKey: profile.sub
-                } );
-                const aspenUser = jose.decodeJwt( aspenToken );
-
-                token.accessToken = aspenToken;
-                token.roles = [aspenUser.role];
-            }
-
-            if ( account?.provider === "facebook" ) {
-                const aspenToken = await registerOAuth( {
-                    email: user.email,
-                    provider: account.provider,
-                    providerKey: profile.id
-                } );
-                const aspenUser = jose.decodeJwt( aspenToken );
-
-                token.accessToken = aspenToken;
-                token.roles = [aspenUser.role];
-            }
-
-            return token
+            return token;
         },
+
         async authorized( { request, auth } ) {
             if ( !auth?.user ) return false;
 

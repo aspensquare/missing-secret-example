@@ -25,7 +25,7 @@ function SignInForm( { callbackUrl } ) {
             <p>You are not logged in</p>
 
             <form
-                className={"my-2"}
+                className={"my-4"}
                 action={async () => {
                     "use server";
                     await signIn( "google", {
@@ -39,7 +39,7 @@ function SignInForm( { callbackUrl } ) {
             </form>
 
             <form
-                className={"my-2"}
+                className={"my-4"}
                 action={async () => {
                     "use server";
                     await signIn( "facebook", {
@@ -53,7 +53,7 @@ function SignInForm( { callbackUrl } ) {
             </form>
 
             <form
-                className={"my-2"}
+                className={"my-4"}
                 action={async () => {
                     "use server";
                     await signIn( "aspen-identity", {
