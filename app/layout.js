@@ -12,14 +12,18 @@ export const metadata = {
 
 export default async function RootLayout( { children } ) {
     const session = await auth();
-    const user = session?.user?.email;
 
     return (
         <html lang="en">
             <body className={`${inter.className} p-6`}>
                 <section>
-                    <h1>Layout</h1>
-                    <div className={"mt-6"}>{user && <SignOut>{`Welcome ${user}`}</SignOut>}</div>
+                    <h1 className={"text-xl"}>Auth Example</h1>
+                    <div className={"mt-6"}>
+                        {
+                            session?.user &&
+                            <SignOut>{`Welcome ${session?.user?.name}`}</SignOut>
+                        }
+                    </div>
                     <p className={"mt-6"}>{session?.accessToken}</p>
                 </section>
 

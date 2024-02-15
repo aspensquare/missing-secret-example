@@ -28,7 +28,11 @@ function SignInForm( { callbackUrl } ) {
                 className={"my-2"}
                 action={async () => {
                     "use server";
-                    await signIn( "google", { redirect: true, callbackUrl } );
+                    await signIn( "google", {
+                        redirect: true,
+                        redirectTo: callbackUrl,
+                        callbackUrl
+                    } );
                 }}
             >
                 <Button type="submit">Sign in with Google</Button>
@@ -38,7 +42,11 @@ function SignInForm( { callbackUrl } ) {
                 className={"my-2"}
                 action={async () => {
                     "use server";
-                    await signIn( "facebook", { redirect: true, callbackUrl } );
+                    await signIn( "facebook", {
+                        // redirect: true,
+                        // redirectTo: callbackUrl,
+                        callbackUrl
+                    } );
                 }}
             >
                 <Button type="submit">Sign in with Facebook</Button>
@@ -49,8 +57,8 @@ function SignInForm( { callbackUrl } ) {
                 action={async () => {
                     "use server";
                     await signIn( "aspen-identity", {
-                        redirect: true,
-                        callbackUrl,
+                        // redirect: true,
+                        // redirectTo: callbackUrl,
                         username: "chris_primavera@aspensquare.com",
                         password: "Prim6006#"
                     } );
