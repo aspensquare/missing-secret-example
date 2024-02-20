@@ -154,7 +154,7 @@ export const {
         //
         async authorized( { request, auth } ) {
             console.log( `auth: ${auth}` );
-            return !!auth;
+            return false;
         }
     },
     // pages: {
