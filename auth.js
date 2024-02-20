@@ -22,7 +22,7 @@ const registerOAuth = async ( { email, provider, providerKey } ) => {
     };
 
     try {
-        const response = await fetch( "http://192.168.184.145:8000/api/Account/RegisterOAuth", requestOptions );
+        const response = await fetch( "https://dev-identity-api.aspensquare.com/api/Account/RegisterOAuth", requestOptions );
         return await response.json();
     } catch ( e ) {
         const x = "tst";
