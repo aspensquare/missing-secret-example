@@ -153,6 +153,7 @@ export const {
         //     },
         //
         async authorized( { request, auth } ) {
+            console.log( auth );
             return !!auth;
         }
     },
