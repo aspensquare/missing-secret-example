@@ -69,6 +69,7 @@ export const {
     signOut,
 } = NextAuth( {
     trustHost: true,
+    basePath: "/api/auth",
     providers: [Google, Facebook, CredentialsProvider( {
         id: "aspen-identity",
         // The name to display on the sign in form (e.g. "Sign in with...")
@@ -147,7 +148,6 @@ export const {
         },
 
         async authorized( { request, auth } ) {
-            console.log( request );
             console.log( auth );
         }
     },
