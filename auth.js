@@ -153,7 +153,7 @@ export const {
         //     },
         //
         async authorized( { request, auth } ) {
-            console.log( `auth: ${auth}` );
+            console.log( `pizza: ${auth}` );
             return false;
         }
     },
