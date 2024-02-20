@@ -154,7 +154,8 @@ export const {
         //
         async authorized( { request, auth } ) {
             console.log( `pizza: ${auth}` );
-            return false;
+            if ( !auth?.user ) return false;
+            return auth?.user;
         }
     },
     // pages: {
