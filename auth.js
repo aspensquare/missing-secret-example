@@ -70,7 +70,7 @@ export const {
 } = NextAuth( {
     trustHost: true,
     basePath: "/api/auth",
-    debug: process.env.NODE_ENV !== "production",
+    debug: true,
     providers: [
         Google,
         // Facebook,
