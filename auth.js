@@ -69,7 +69,7 @@ export const {
     signOut,
 } = NextAuth( {
     trustHost: true,
-    basePath: "/api/auth",
+    // basePath: "/api/auth",
     debug: process.env.NODE_ENV !== "production",
     providers: [
         Google,
