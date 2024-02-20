@@ -69,7 +69,7 @@ export const {
     signOut,
 } = NextAuth( {
     trustHost: true,
-    basePath: "/api/auth",
+    // basePath: "/api/auth",
     providers: [Google, Facebook, CredentialsProvider( {
         id: "aspen-identity",
         // The name to display on the sign in form (e.g. "Sign in with...")
@@ -117,41 +117,41 @@ export const {
             }
         }
     } )],
-    callbacks: {
-        // async signIn( { user, account, profile, email, credentials } ) {
-        //     return true
-        // },
-
-        // async redirect( { url, baseUrl } ) {
-        //     const redirectUrl = ( new URL( url ) ).searchParams.get( "callbackUrl" );
-        //
-        //     if ( redirectUrl ) return redirectUrl;
-        //
-        //     return baseUrl
-        // },
-
-        async session( { session, user, token } ) {
-            console.log( user );
-            if ( token?.accessToken ) {
-                session.accessToken = token.accessToken;
-            }
-            return session
-        },
-
-        async jwt( { token, user, account, profile, isNewUser } ) {
-            console.log( account );
-            if ( account ) {
-                return await initializeToken( token, user, account, profile );
-            }
-
-            return token;
-        },
-
-        async authorized( { request, auth } ) {
-            console.log( auth );
-        }
-    },
-    pages: {
-        signIn: "/auth/signin",
-    },
+    // callbacks: {
+    //     // async signIn( { user, account, profile, email, credentials } ) {
+    //     //     return true
+    //     // },
+    //
+    //     // async redirect( { url, baseUrl } ) {
+    //     //     const redirectUrl = ( new URL( url ) ).searchParams.get( "callbackUrl" );
+    //     //
+    //     //     if ( redirectUrl ) return redirectUrl;
+    //     //
+    //     //     return baseUrl
+    //     // },
+    //
+    //     async session( { session, user, token } ) {
+    //         console.log( user );
+    //         if ( token?.accessToken ) {
+    //             session.accessToken = token.accessToken;
+    //         }
+    //         return session
+    //     },
+    //
+    //     async jwt( { token, user, account, profile, isNewUser } ) {
+    //         console.log( account );
+    //         if ( account ) {
+    //             return await initializeToken( token, user, account, profile );
+    //         }
+    //
+    //         return token;
+    //     },
+    //
+    //     async authorized( { request, auth } ) {
+    //         console.log( auth );
+    //     }
+    // },
+    // pages: {
+    //     signIn: "/auth/signin",
+    // },
 } );
