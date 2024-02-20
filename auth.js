@@ -117,40 +117,40 @@ export const {
             }
         }
     } )],
-    // callbacks: {
-    //     // async signIn( { user, account, profile, email, credentials } ) {
-    //     //     return true
-    //     // },
-    //
-    //     // async redirect( { url, baseUrl } ) {
-    //     //     const redirectUrl = ( new URL( url ) ).searchParams.get( "callbackUrl" );
-    //     //
-    //     //     if ( redirectUrl ) return redirectUrl;
-    //     //
-    //     //     return baseUrl
-    //     // },
-    //
-    //     async session( { session, user, token } ) {
-    //         console.log( user );
-    //         if ( token?.accessToken ) {
-    //             session.accessToken = token.accessToken;
-    //         }
-    //         return session
-    //     },
-    //
-    //     async jwt( { token, user, account, profile, isNewUser } ) {
-    //         console.log( account );
-    //         if ( account ) {
-    //             return await initializeToken( token, user, account, profile );
-    //         }
-    //
-    //         return token;
-    //     },
-    //
-    //     async authorized( { request, auth } ) {
-    //         console.log( auth );
-    //     }
-    // },
+    callbacks: {
+        //     // async signIn( { user, account, profile, email, credentials } ) {
+        //     //     return true
+        //     // },
+        //
+        //     // async redirect( { url, baseUrl } ) {
+        //     //     const redirectUrl = ( new URL( url ) ).searchParams.get( "callbackUrl" );
+        //     //
+        //     //     if ( redirectUrl ) return redirectUrl;
+        //     //
+        //     //     return baseUrl
+        //     // },
+        //
+        //     async session( { session, user, token } ) {
+        //         console.log( user );
+        //         if ( token?.accessToken ) {
+        //             session.accessToken = token.accessToken;
+        //         }
+        //         return session
+        //     },
+        //
+        //     async jwt( { token, user, account, profile, isNewUser } ) {
+        //         console.log( account );
+        //         if ( account ) {
+        //             return await initializeToken( token, user, account, profile );
+        //         }
+        //
+        //         return token;
+        //     },
+        //
+        async authorized( { request, auth } ) {
+            return !!auth;
+        }
+    },
     // pages: {
     //     signIn: "/auth/signin",
     // },
