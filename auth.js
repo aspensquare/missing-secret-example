@@ -121,15 +121,16 @@ export const {
         //     return true
         // },
 
-        async redirect( { url, baseUrl } ) {
-            const redirectUrl = ( new URL( url ) ).searchParams.get( "callbackUrl" );
-
-            if ( redirectUrl ) return redirectUrl;
-
-            return baseUrl
-        },
+        // async redirect( { url, baseUrl } ) {
+        //     const redirectUrl = ( new URL( url ) ).searchParams.get( "callbackUrl" );
+        //
+        //     if ( redirectUrl ) return redirectUrl;
+        //
+        //     return baseUrl
+        // },
 
         async session( { session, user, token } ) {
+            console.log( user );
             if ( token?.accessToken ) {
                 session.accessToken = token.accessToken;
             }
@@ -137,6 +138,7 @@ export const {
         },
 
         async jwt( { token, user, account, profile, isNewUser } ) {
+            console.log( account );
             if ( account ) {
                 return await initializeToken( token, user, account, profile );
             }
@@ -145,11 +147,8 @@ export const {
         },
 
         async authorized( { request, auth } ) {
-            if ( !auth?.user ) return false;
-
-            // const accessTokenIsValid = Date.now() < ( decodedAccessToken.exp * 1000 );
-            //TODO: check auth?.accessToken expiration
-            return auth?.user;
+            console.log( request );
+            console.log( auth );
         }
     },
     pages: {
