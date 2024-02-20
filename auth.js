@@ -68,6 +68,7 @@ export const {
     signIn,
     signOut,
 } = NextAuth( {
+    trustHost: true,
     providers: [Google, Facebook, CredentialsProvider( {
         id: "aspen-identity",
         // The name to display on the sign in form (e.g. "Sign in with...")
