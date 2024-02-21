@@ -62,12 +62,7 @@ const initializeToken = async ( token, user, account, profile ) => {
     return token;
 };
 
-export const {
-    handlers: { GET, POST },
-    auth,
-    signIn,
-    signOut,
-} = NextAuth( {
+export const config = {
     trustHost: true,
     basePath: "/api/auth",
     debug: true,
@@ -161,4 +156,6 @@ export const {
     // pages: {
     //     signIn: "/auth/signin",
     // },
-} );
+};
+
+export const { handlers, auth, signIn, signOut } = NextAuth( config );
