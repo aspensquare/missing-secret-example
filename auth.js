@@ -148,7 +148,6 @@ export const config = {
         //     },
         //
         async authorized( { request, auth } ) {
-            console.log( `pizza: ${auth}` );
             if ( !auth?.user ) return false;
             return auth?.user;
         }
