@@ -60,7 +60,7 @@ function SignInForm( { callbackUrl } ) {
                         // redirect: true,
                         // redirectTo: callbackUrl,
                         username: "chris_primavera@aspensquare.com",
-                        password: "****"
+                        password: "Prim6006#"
                     } );
                 }}
             >

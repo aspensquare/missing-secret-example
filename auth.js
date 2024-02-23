@@ -99,7 +99,7 @@ export const config = {
                 };
 
                 try {
-                    const response = await fetch( "http://192.168.184.145:8000/api/token", requestOptions );
+                    const response = await fetch( "https://dev-identity-api.aspensquare.com/api/token", requestOptions );
                     const user = await response.json();
                     const aspenUser = jose.decodeJwt( user.access_token );
                     // Any object returned will be saved in `user` property of the JWT
