@@ -5,7 +5,6 @@ import Facebook from "next-auth/providers/facebook";
 import AzureADProvider from "next-auth/providers/azure-ad";
 import CredentialsProvider from "next-auth/providers/credentials";
 import * as jose from "jose"
-import crypto from "crypto"
 
 const registerOAuth = async ( { email, provider, providerKey } ) => {
     const myHeaders = new Headers();
@@ -96,7 +95,7 @@ export const config = {
                     scope: "",
                     response_type: "code",
                     response_mode: "query",
-                    state: crypto.randomUUID()
+                    state: process.env.AUTH_SECRET
                 },
             },
             client: {
