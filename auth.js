@@ -5,6 +5,7 @@ import Facebook from "next-auth/providers/facebook";
 import AzureADProvider from "next-auth/providers/azure-ad";
 import CredentialsProvider from "next-auth/providers/credentials";
 import * as jose from "jose"
+import crypto from "crypto"
 
 const registerOAuth = async ( { email, provider, providerKey } ) => {
     const myHeaders = new Headers();
@@ -68,8 +69,40 @@ export const config = {
     trustHost: true,
     basePath: "/api/auth",
     debug: true,
+    cookies: {
+        pkceCodeVerifier: {
+            name: "next-auth.pkce.code_verifier",
+            options: {
+                httpOnly: true,
+                sameSite: "none",
+                path: "/",
+                secure: true,
+            },
+        },
+    },
+    secret: process.env.AUTH_SECRET,
     providers: [
-        AppleProvider,
+        AppleProvider( {
+            clientId: process.env.AUTH_APPLE_ID,
+            clientSecret: process.env.AUTH_APPLE_SECRET,
+            wellKnown: "https://appleid.apple.com/.well-known/openid-configuration",
+            checks: ["pkce"],
+            token: {
+                url: `https://appleid.apple.com/auth/token`,
+            },
+            authorization: {
+                url: "https://appleid.apple.com/auth/authorize",
+                params: {
+                    scope: "",
+                    response_type: "code",
+                    response_mode: "query",
+                    state: crypto.randomUUID()
+                },
+            },
+            client: {
+                token_endpoint_auth_method: "client_secret_post",
+            },
+        } ),
         Google,
         Facebook,
         AzureADProvider( {

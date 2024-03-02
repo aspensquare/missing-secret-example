@@ -2,10 +2,10 @@ const jwt = require( "jsonwebtoken" );
 const fs = require( "fs" );
 const path = require( "path" );
 
-const keyId = "NM99MZ25B9"; // Replace with your actual key ID
 const teamId = "Q95N99Y56D"; // Replace with your actual team ID
+const bundleId = "com.aspensquare.portal"; // Replace with your actual bundle or Services ID
+const keyId = "NM99MZ25B9"; // Replace with your actual key ID
 const keyFilePath = "private/key/AuthKey_NM99MZ25B9.p8"; // Replace with the path to your downloaded key file
-const bundleId = "com.aspensquare.resident-portal"; // Replace with your actual bundle ID
 
 // Generate the JWT header
 const header = {
