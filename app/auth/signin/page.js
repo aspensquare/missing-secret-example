@@ -28,6 +28,20 @@ function SignInForm( { callbackUrl } ) {
                 className={"my-4"}
                 action={async () => {
                     "use server";
+                    await signIn( "apple", {
+                        redirect: true,
+                        redirectTo: callbackUrl,
+                        callbackUrl
+                    } );
+                }}
+            >
+                <Button type="submit">Sign in with Apple</Button>
+            </form>
+
+            <form
+                className={"my-4"}
+                action={async () => {
+                    "use server";
                     await signIn( "google", {
                         redirect: true,
                         redirectTo: callbackUrl,
@@ -65,6 +79,20 @@ function SignInForm( { callbackUrl } ) {
                 }}
             >
                 <Button type="submit">Sign in with Aspen</Button>
+            </form>
+
+            <form
+                className={"my-4"}
+                action={async () => {
+                    "use server";
+                    await signIn( "azure-ad", {
+                        // redirect: true,
+                        // redirectTo: callbackUrl,
+                        callbackUrl
+                    } );
+                }}
+            >
+                <Button type="submit">Sign in with Azure AD</Button>
             </form>
         </>
     );

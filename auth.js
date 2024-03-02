@@ -1,6 +1,8 @@
 import NextAuth from "next-auth";
+import AppleProvider from "next-auth/providers/apple"
 import Google from "next-auth/providers/google";
 import Facebook from "next-auth/providers/facebook";
+import AzureADProvider from "next-auth/providers/azure-ad";
 import CredentialsProvider from "next-auth/providers/credentials";
 import * as jose from "jose"
 
@@ -67,8 +69,14 @@ export const config = {
     basePath: "/api/auth",
     debug: true,
     providers: [
+        AppleProvider,
         Google,
         Facebook,
+        AzureADProvider( {
+            clientId: process.env.AZURE_AD_CLIENT_ID,
+            clientSecret: process.env.AZURE_AD_CLIENT_SECRET,
+            tenantId: process.env.AZURE_AD_TENANT_ID,
+        } ),
         CredentialsProvider( {
             id: "aspen-identity",
             // The name to display on the sign in form (e.g. "Sign in with...")
