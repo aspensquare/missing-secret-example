@@ -68,6 +68,7 @@ export const config = {
     trustHost: true,
     basePath: "/api/auth",
     debug: true,
+    //https://github.com/nextauthjs/next-auth/issues/6788#issuecomment-1658765772
     cookies: {
         pkceCodeVerifier: {
             name: "next-auth.pkce.code_verifier",
@@ -82,6 +83,7 @@ export const config = {
     secret: process.env.AUTH_SECRET,
     providers: [
         AppleProvider( {
+            //https://github.com/nextauthjs/next-auth/issues/6788#issuecomment-1658765772
             clientId: process.env.AUTH_APPLE_ID,
             clientSecret: process.env.AUTH_APPLE_SECRET,
             wellKnown: "https://appleid.apple.com/.well-known/openid-configuration",
