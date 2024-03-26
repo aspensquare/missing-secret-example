@@ -1,4 +1,4 @@
-export { auth as default } from "./auth";
+export { auth as default } from "@aspen/next-auth-public";
 
 // Optionally, don't invoke Middleware on some paths
 export const config = {

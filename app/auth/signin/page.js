@@ -1,4 +1,4 @@
-import { auth, signIn, signOut } from "@/auth";
+import { auth, signIn, signOut } from "@aspen/next-auth-public";
 import { Button } from "@/components/ui/button";
 
 export default async function SignIn( { searchParams } ) {
