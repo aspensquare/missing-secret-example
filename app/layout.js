@@ -1,4 +1,5 @@
-import { auth, signIn, signOut } from "@aspen/next-auth-public";
+import { auth, signIn, signOut } from "@/auth";
+import { SessionProvider } from "next-auth/react";
 import { Inter } from "next/font/google";
 import { Button } from "@/components/ui/button";
 import "./globals.css";
@@ -24,7 +25,9 @@ export default async function RootLayout( { children } ) {
                     <div className={"mt-6"}>
                         {
                             session?.user &&
-                            <SignOut>{`Welcome ${session?.user?.name}`}</SignOut>
+                            <SessionProvider>
+                                <SignOut>{`Welcome ${session?.user?.name}`}</SignOut>
+                            </SessionProvider>
                         }
                     </div>
                     <p className={"mt-6"}>{session?.accessToken}</p>
