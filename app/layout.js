@@ -2,6 +2,7 @@ import { auth, signIn, signOut } from "@/auth";
 import { SessionProvider } from "next-auth/react";
 import { Inter } from "next/font/google";
 import { Button } from "@/components/ui/button";
+import Dashboard from "@/components/dashboard";
 import "./globals.css";
 
 const inter = Inter( { subsets: ["latin"] } );
@@ -13,10 +14,7 @@ export const metadata = {
 
 export default async function RootLayout( { children } ) {
     const session = await auth();
-
-    console.log( `>>>>>>>>>>> Session >>>>>>>>>>>` );
-    console.log( session );
-
+    
     return (
         <html lang="en">
             <body className={`${inter.className} p-6`}>
@@ -26,7 +24,8 @@ export default async function RootLayout( { children } ) {
                         {
                             session?.user &&
                             <SessionProvider>
-                                <SignOut>{`Welcome ${session?.user?.name}`}</SignOut>
+                                <Dashboard/>
+                                <SignOut/>
                             </SessionProvider>
                         }
                     </div>
@@ -39,7 +38,7 @@ export default async function RootLayout( { children } ) {
     );
 }
 
-function SignOut( { children } ) {
+function SignOut() {
     return (
         <form
             action={async () => {
@@ -47,7 +46,6 @@ function SignOut( { children } ) {
                 await signOut();
             }}
         >
-            <p className={"mb-6"}>{children}</p>
             <Button type="submit" variant={"outline"}>Sign out</Button>
         </form>
     );
